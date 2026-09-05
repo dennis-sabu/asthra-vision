@@ -1,0 +1,66 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Python cache and test artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Downloaded and exported AI model files
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+*.tflite
+*.param
+*.weights
+
+# NCNN exported model directories and binaries
+*_ncnn_model/
+*.bin
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDE and editor settings
+.vscode/
+.idea/
+
+# Jupyter and local tooling
+.ipynb_checkpoints/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+temp/
+tmp/
+
+# Python build and packaging files
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
