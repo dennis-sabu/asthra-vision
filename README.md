@@ -2,11 +2,11 @@
 
 ASTHRA Vision is the computer vision subsystem for the ASTHRA welcome robot. It currently runs on a laptop webcam and uses Ultralytics YOLO to detect people, select a target, and calculate the target's position relative to the camera frame.
 
-The project is being developed in stages so the laptop vision system can later provide the input for a Raspberry Pi 4 and an ESP32-based robot.
+The project is designed to support both Windows Laptop development and Raspberry Pi 4 deployment.
 
 ## Current Features
 
-- Captures live video from a laptop webcam using OpenCV.
+- Captures live video from a laptop webcam, USB webcam, or ESP32-CAM Wi-Fi stream.
 - Detects people only using the YOLO person class.
 - Processes multiple detected people in each frame.
 - Selects the largest detected person as the current target.
@@ -19,16 +19,19 @@ The project is being developed in stages so the laptop vision system can later p
 ```text
 asthra-vision/
 ├── main.py                         # Application entry point
+├── config.py                       # Configuration management
 ├── requirements.txt                # Python dependencies
 ├── README.md
 ├── camera/
-│   └── webcam.py                   # Webcam capture interface
+│   └── webcam.py                   # Camera capture interface (USB & HTTP)
 ├── detection/
 │   └── person_detector.py          # YOLO person detection
 ├── tracking/
 │   └── person_tracker.py           # Target selection and position tracking
-├── control/                        # Reserved for future robot control
-└── utils/                          # Reserved for shared utilities
+├── control/                        # Robot control logic
+├── utils/                          # Shared utilities
+└── deployment/                     # Environment-specific deployment scripts
+    └── raspberry_pi/                # Raspberry Pi 4 installation and run tools
 ```
 
 The YOLO model file is downloaded locally and is intentionally excluded from Git. Source code, configuration, documentation, and dependency files remain available for GitHub.
@@ -82,6 +85,42 @@ python main.py
 
 The webcam window shows the live detections and tracking direction. Press `q` to stop the application.
 
+## Raspberry Pi 4 Deployment
+
+This system is optimized for Raspberry Pi OS (64-bit).
+
+### Installation
+
+1. Clone the repository and enter the directory:
+   ```bash
+   git clone <repository-url>
+   cd asthra-vision
+   ```
+
+2. Run the automated installation script:
+   ```bash
+   chmod +x deployment/raspberry_pi/install.sh
+   ./deployment/raspberry_pi/install.sh
+   ```
+
+### Configuration
+
+You can configure the system using environment variables without editing the code:
+
+- **Camera Source**: `ASTHRA_CAMERA_SOURCE` (e.g., `0` for USB or `http://...` for ESP32-CAM).
+- **Resolution**: `ASTHRA_CAMERA_WIDTH` and `ASTHRA_CAMERA_HEIGHT`.
+- **Model Path**: `ASTHRA_MODEL_PATH` (e.g., `yolov8n.pt`).
+
+### Execution
+
+To start ASTHRA Vision on the Pi:
+```bash
+chmod +x deployment/raspberry_pi/run.sh
+./deployment/raspberry_pi/run.sh
+```
+
+For detailed Pi-specific setup, including NCNN model optimization, see [deployment/raspberry_pi/README.md](deployment/raspberry_pi/README.md).
+
 ## Future Hardware Integration
 
 Hardware integration is planned but is not part of the current implementation. The intended roadmap is:
@@ -93,8 +132,6 @@ Hardware integration is planned but is not part of the current implementation. T
 5. ESP32-CAM video stream integration.
 6. Real servo control.
 7. ASTHRA welcome robot behavior.
-
-Raspberry Pi, ESP32-CAM, servo, and robot control code will be added in later stages. No hardware is required to run the current laptop development system.
 
 ## Notes
 
